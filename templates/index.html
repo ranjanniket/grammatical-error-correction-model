@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grammar Correction</title>
+    <style>
+        /* Add CSS styling for a beautiful UI */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        p {
+            font-size: 16px;
+            margin-top: 10px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Grammar Correction</h1>
+        <textarea id="input-text" rows="5" placeholder="Enter a sentence with grammatical errors"></textarea>
+        <br>
+        <input id="submit-btn" type="submit" value="Correct Grammar">
+        <p id="output-text"></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#submit-btn").click(function() {
+                var inputText = $("#input-text").val();
+                $.ajax({
+                    url: "/process",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ "input_text": inputText }),
+                    success: function(response) {
+                        $("#output-text").text("Corrected sentence: " + response.corrected_text);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
